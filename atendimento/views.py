@@ -38,9 +38,9 @@ def index4a(request):
     return HttpResponse(template.render(context, request))
 
 # Exemplo de controle, que recebe opcionalmente o parâmetro idade retorna como resposta um html simples através de um
-# template armazenado em arquivo
+# template armazenado em arquivo.
 def index4b(request, idade=None):
     current_date = datetime.datetime.now()
     # locals() retorna um dicionário contento todos as variáveis locais disponíveis.
-    # sprint(locals())
+    # print(locals())
     return render(request, 'atendimento/index4.html', locals())
