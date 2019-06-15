@@ -20,7 +20,7 @@ def index3(request):
 
     # Obs: A data já é exibida de acordo com a configuração realizada no
     # Django: It timeeeeeee 3 de Julho de 2014 às 11:59.
-    template = Template('<html><body>It timeeeeeee {{ current_date }}.</body></html>')
+    template = Template('<html><body>Houston, now is {{ current_date }}.</body></html>')
     context = Context({'current_date': now})
     html = template.render(context)
 
