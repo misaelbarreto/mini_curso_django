@@ -1,0 +1,283 @@
+
+Mini Curso de Django
+
+Quem Somos
+
+Objetivos
+    Mostrar o que é o Django
+    Como fazer sua instalação e configuração
+    Apresentar o modelo MVT (Model, View, Template)
+    Por a mão na massa (Aí SIM! CODE!)
+
+Pré-Requisitos
+
+    Conhecimento básico de programação orientação a objetos (POO)
+    Conhecimento básico em Python
+
+POO no modo "caldo de cana + pastel":
+    O que é?
+        Classificar, organizar e abstrair as coisas do mundo real (classes) em uma coleção de objetos que possuem características (dados) e realizam ações (métodos). 
+
+    Como fazer isso?
+        Primeiro classifique, depois organize e por fim abstraia (aqui começa a viagem...);
+
+    Exemplo básico:
+        João foi ao supermercado e botou na cesta 1 kg de arroz, 1kg de feijão preto, um pacote de 500g de linguiça toscana e 6 garrafas de cerveja. Ao final, foi ao caixa e pagou um total de 25 reais.
+
+ 
+        Classificando e organiando...
+            João é um cliente do supermercado.
+            1 kg de arroz, ... 6 garras de cerveja são produtos.
+            João pagou pelos produtos no supermercado - Trata-se de uma compra na perspectiva de João e de uma venda na perspetiva do supermercado.
+            Os itens comprados por João já não podem ser vendidos a outro cliente.
+
+        O que abstrair daí?
+            Classes:
+                Cliente, Produto, Venda, Estoque
+            Objetos:
+                do tipo Cliente: João
+                do tipo Produto: Arroz, feijão, linguiça e cerveja.
+                do tipo Venda: A venda realizada pelo supermercado a João.
+                do tipo Estoque: A baixa dos itens vendidos a João.
+
+            Atributos:
+                Cliente
+                    nome
+                    cpf
+                    data_nascimento
+                    e-mail
+                    fone
+
+                Produto
+                    descricao
+                    preco
+
+                Venda
+                    data
+                    cliente
+
+                VendaItem
+                    venda
+                    produto
+                    quantidade
+
+                Estoque
+                    produto
+                    quantidade
+
+
+Python no modo "caldo de cana":
+    O que é?
+        É uma linguagem orientada a objetos, com tipagem forte e dinâmica.
+
+    O que eu faço com ela?
+        Faz muita coisa, nas mais diversas áreas, mas hoje vamos nos focar no Django e em escrever uma aplicação usando a abstração do slide anterior.
+
+    Como instalar?
+        Linux (Debian):
+            $ apt-get install python3
+        Mac OS:
+            $ brew install python3
+        Windows:
+            Baixar o instalador e executá-lo:
+            https://www.python.org/downloads/
+
+    Além do python, precisamos do gerenciador de pacotes dele, o pip:
+        Linux (Debian), Mac OS ou Windows
+        $ curl https://bootstrap.pypa.io/get-pip.py | python3
+
+    Houston, are you there?
+        $ python3 --version
+        $ pip3 --version
+
+
+
+O que é o Django
+    É um framework python voltado para a criação de aplicações web, de maneira simples e ágil.
+    Trabalha com o conceito de aplicações plugáveis, ou seja, reutilizá-veis.
+    Utiliza o padrão MVC, através da sigla MVT (model, view, template);
+        model = model
+        controler = view
+        view = template
+    Oferece um servidor de aplicação interno (runserver), muito útil na fase de desenvolvimento e testes.
+    Atenção: Ele não foi projetado para ser usado em produção, então não faça isso!
+    
+    Oferece uma poderosa ORM;
+    Oferece uma aplicacão admin que atende bem em geral e pode ser customizada.
+
+    Como instalar?
+        $ pip3 install django
+        Caso queira especificar uma versão:
+        $ pip3 install django==2.2.2
+
+        Verificando o que foi instalado
+        $ pip freeze
+
+    Houston, are you there?
+    $ python3 -c "import django; print(django.get_version())"
+
+
+Se for falar de VirtualEnv:
+    $ mkvirtualenv mini_curso_django -p $(which python3)
+
+
+Criando um projeto
+    $ django-admin startproject mini_curso_django
+    $ cd mini_curso_django
+    $ tree
+    .
+    ├── manage.py
+    └── mini_curso_django
+        ├── __init__.py
+        ├── settings.py
+        ├── urls.py
+        └── wsgi.py
+
+    Houston, can you hear me?
+        Testando se o projeto está rodando:
+        $ python3 manage.py runserver
+
+
+Criando uma app
+    Uma vez dentro da pasta do projeto, execute:
+    $ django-admin startapp atendimento
+    $ tree
+    .
+    ├── atendimento
+    │   ├── __init__.py
+    │   ├── admin.py
+    │   ├── apps.py
+    │   ├── migrations
+    │   │   └── __init__.py
+    │   ├── models.py
+    │   ├── tests.py
+    │   └── views.py
+    ├── db.sqlite3
+    ├── manage.py
+    └── mini_curso_django
+        ├── __init__.py
+        ├── __pycache__
+        │   ├── __init__.cpython-37.pyc
+        │   ├── settings.cpython-37.pyc
+        │   ├── urls.cpython-37.pyc
+        │   └── wsgi.cpython-37.pyc
+        ├── settings.py
+        ├── urls.py
+        └── wsgi.py
+
+
+Criando e entendendo uma simples view
+    Exibir os códigos correspondentes...
+
+    Mostrar imagens...
+
+    Como funciona?
+        Browser dispara a requisição (HttpRequest) para determinada url do servidor
+        A engine do Django faz o direcionamento para a view correta, de acordo com o urls.py do projeto e da app.
+        A view é processada
+        A resposta (HttpResponse) é retornada. No caso é um texto simples ou um html gerado manualmente.
+
+
+Criando e entendendo um simples template
+    Exibir os códigos correspondentes...
+
+    Mostrar imagens...
+
+    Como funciona?
+        Browser dispara a requisição (HttpRequest) para determinada url do servidor
+        A engine do Django faz o direcionamento para a view correta, de acordo com o urls.py do projeto e da app.
+        Inicia-se o processamento da view.
+        Durante o processamento da view, o template que será utilizado é identificado, um conjunto de variáves é fornecido de variáveis, ele é processado e retorna um html.
+        A resposta (HttpResponse) é retornada. No caso é html gerado manualmente via template.
+
+    Os templates podem ser criados em tempo de execução ou carregados a partir de arquivos.
+    Além de podermos criar templates, o Django nos permite alterar os templates de outras aplicações, como por exemplo os da aplicação 'django.contrib.admin'.
+    Isso aqui é só o básico de temp
+
+
+
+Show de bola, já entendi como funciona a view e o template, mas cadê o sistema?
+
+Calma pequenho ganfanhoto, agora a brincadeira vai ficar legal!
+
+
+Criando e entendendo um simples model
+
+    Vamos criar nosso primeiro model
+    Mostrar código fonte
+
+    Gerar a alteração de banco de dados.
+    $ python3 manage.py makemigrations atendimento
+    $ python3 manage.py sqlmigrate atendimento 0001
+
+    Aplicar alteração no banco de dados.
+    python3 manage.py migrate
+
+    Realizando o cadastro de um cliente via terminal:
+        $ python3 manage.py shell 
+        Python 3.7.3 (default, Mar 27 2019, 09:23:39) 
+        [Clang 10.0.0 (clang-1000.11.45.5)] on darwin
+        Type "help", "copyright", "credits" or "license" for more information.
+        (InteractiveConsole)
+
+        >>> from atendimento.models import Cliente
+        >>> Cliente.objects.all()
+        <QuerySet []>
+
+        >>> p = Cliente(nome='Jhon Rambo', estado_civil='SOLTEIRO', cpf='871.536.330-90')
+
+        >>> type(p)
+        <class 'atendimento.models.Cliente'>
+
+        >>> p.id
+
+        >>> p.save()
+
+        >>> p.id
+        1
+
+        >>> Cliente.objects.all()
+        <QuerySet [<Cliente: Jhon Rambo>]>
+
+
+Usando o aplicativo Django Admin ('django.contrib.admin')
+    O que é?
+    Trata-se de um aplicativo web oferecido no 0800 pelo Django através do qual você será capaz de gerenciar todos os seus modelos. Além disso, você ganhará os recursos de autenticação ("Usuário o e senha estão corretos?") e autorização ("O usuário pode realizar as operações A, B e C...").
+
+    Como faz pra eu adquerir?
+    Já tá no pacote, basta fazer o cadastro do administrador.
+
+    $ python3 manage.py createsuperuser
+    Username (leave blank to use 'misaelbarreto'): admin
+    Email address: 
+    Password: senha
+    Password (again): senha
+    This password is too short. It must contain at least 8 characters.
+    This password is too common.
+    Bypass password validation and create user anyway? [y/N]: y
+
+    Para acessar o admin:
+    http://localhost:8000/admin/l
+
+
+    Mas cadê o meu modelo Cliente? 
+    Calma pequeno gafanhado. Você precisa informar ao Django Admin quais modelos você quer que ele gerencie.
+
+
+    Mostrar o admin.py.
+
+
+
+
+
+Ref:
+http://www.macoratti.net/oo_conc2.htm
+https://www.devmedia.com.br/os-4-pilares-da-programacao-orientada-a-objetos/9264
+http://felipequadros.com/programa%C3%A7%C3%A3o/b%C3%A1sico/iniciante/geral/teoria/2016/06/05/tipagem-fraca-forte-est%C3%A1tica-din%C3%A2mica-e-inferencia-de-tipo/
+https://respostas.guj.com.br/9717-diferenca-entre-mvc-vs-mvt
+https://docs.djangoproject.com/pt-br/2.2/
+https://docs.djangoproject.com/pt-br/2.2/intro/install/
+https://docs.djangoproject.com/pt-br/2.2/intro/tutorial01/
+https://docs.djangoproject.com/pt-br/2.2/topics/http/views/
+https://docs.djangoproject.com/pt-br/2.2/topics/http/urls/
+
