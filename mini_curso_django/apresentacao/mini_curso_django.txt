@@ -266,6 +266,11 @@ Usando o aplicativo Django Admin ('django.contrib.admin')
 
     Mostrar o admin.py.
 
+    Mostrar o cadastro funcionando.
+
+
+    Fazer pequenos ajustes de configuração de região:
+
 
 
 
