@@ -6,6 +6,12 @@
 </head>
 <body>
 <h1>Houston, now is {{ current_date }}.</h1>
-Obs: Template em arquivo.
+
+{% if idade %}
+    <p>Minha idade é {{ idade }}.</p>
+{% endif %}
+
+<p>Obs: Template em arquivo.</p>
+
 </body>
 </html>

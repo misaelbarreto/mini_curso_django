@@ -2,7 +2,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.template import Template, Context, loader
-
+from django.shortcuts import render
 
 # Create your views here.
 
@@ -29,10 +29,18 @@ def index3(request):
     return HttpResponse(html)
 
 # Exemplo de controle que retorna como resposta um html simples através de um template armazenado em arquivo.
-def index4(request):
+def index4a(request):
     # Obs: Para o loader funcionar, se faz necessário que a aplicação esteja listada no settings.INSTALLED_APPS.
     template = loader.get_template('atendimento/index4.html')
     context = {
         'current_date': datetime.datetime.now(),
     }
     return HttpResponse(template.render(context, request))
+
+# Exemplo de controle, que recebe opcionalmente o parâmetro idade retorna como resposta um html simples através de um
+# template armazenado em arquivo
+def index4b(request, idade=None):
+    current_date = datetime.datetime.now()
+    # locals() retorna um dicionário contento todos as variáveis locais disponíveis.
+    # sprint(locals())
+    return render(request, 'atendimento/index4.html', locals())
