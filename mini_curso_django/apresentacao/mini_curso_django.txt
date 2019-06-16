@@ -242,32 +242,42 @@ Criando e entendendo um simples model
 
 Usando o aplicativo Django Admin ('django.contrib.admin')
     O que é?
-    Trata-se de um aplicativo web oferecido no 0800 pelo Django através do qual você será capaz de gerenciar todos os seus modelos. Além disso, você ganhará os recursos de autenticação ("Usuário o e senha estão corretos?") e autorização ("O usuário pode realizar as operações A, B e C...").
+        Trata-se de uma aplicação web (site) através do qual será possível gerenciar os seus modelos. Esta aplicação, associada a outras, também oferecidas pelo Django, irão disponibiizar pra você:
 
-    Como faz pra eu adquerir?
-    Já tá no pacote, basta fazer o cadastro do administrador.
+        django.contrib.admin – O admin site.
+        django.contrib.auth – Um sistema de autenticação.
+        django.contrib.contenttypes – Um framework para tipos de conteúdo.
+        django.contrib.sessions – Um framework de sessão.
+        django.contrib.messages – Um framework de envio de mensagem.
+        django.contrib.staticfiles – Um framework para gerenciamento de arquivos estáticos.
 
-    $ python3 manage.py createsuperuser
-    Username (leave blank to use 'misaelbarreto'): admin
-    Email address: 
-    Password: senha
-    Password (again): senha
-    This password is too short. It must contain at least 8 characters.
-    This password is too common.
-    Bypass password validation and create user anyway? [y/N]: y
+
+    Como faz pra poder usá-lo?
+        Ele já no configurado para isso (settings.INSTALLED_APPS), então basta fazer o cadastro do administrador.
+
+        $ python3 manage.py createsuperuser
+        Username (leave blank to use 'misaelbarreto'): admin
+        Email address: 
+        Password: senha
+        Password (again): senha
+        This password is too short. It must contain at least 8 characters.
+        This password is too common.
+        Bypass password validation and create user anyway? [y/N]: y
+
 
     Para acessar o admin:
     http://localhost:8000/admin/l
 
-
     Mas cadê o meu modelo Cliente? 
     Calma pequeno gafanhado. Você precisa informar ao Django Admin quais modelos você quer que ele gerencie.
-
 
     Mostrar o admin.py.
 
     Mostrar o cadastro funcionando.
 
+    Mostrar customizações que dá pra fazer via Admin.
+
+    Mostrar customizações que dá pra fazer via Form.
 
     Fazer pequenos ajustes de configuração de região:
 
