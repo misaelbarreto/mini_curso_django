@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 # Create your models here.
@@ -9,7 +10,7 @@ class Cliente(models.Model):
         ('SOLTEIRO', u'Solteiro'),
         ('CASADO', u'Casado'),
         ('DIVORCIADO', u'Divorciado'),
-        ('VIUV', u'Viúvo'),
+        ('VIUVO', u'Viúvo'),
     )
 
     nome = models.CharField(verbose_name='Nome', max_length=100)
@@ -24,3 +25,15 @@ class Cliente(models.Model):
     # Label padrão que será exibido em toda o admin do Django.
     def __str__(self):
         return self.nome
+
+    # Método que faz validações customizadas. O ideal é que toda a validação do modelo se concentre aqui, e não em views
+    # ou forms, assim temos o código em um só local e facilitamos a sua manutenção.
+    # ModelForms invocam o método clean() antes de chamar o método save(). Obs:  Admin utiliza internamente um ModelForm.
+    def clean(self):
+        if self.nome:
+            self.nome = self.nome.strip()
+            if len(self.nome.split(' ')) < 2:
+                raise ValidationError({'nome':'Nome e sobrenome são requeridos.'})
+
+        super().clean()
+

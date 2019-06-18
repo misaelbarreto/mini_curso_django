@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=100, verbose_name='Nome')),
-                ('estado_civil', models.CharField(choices=[('SOLTEIRO', 'Solteiro'), ('CASADO', 'Casado'), ('DIVORCIADO', 'Divorciado'), ('VIUV', 'Viúvo')], max_length=10, verbose_name='Estado Civil')),
+                ('estado_civil', models.CharField(choices=[('SOLTEIRO', 'Solteiro'), ('CASADO', 'Casado'), ('DIVORCIADO', 'Divorciado'), ('VIUVO', 'Viúvo')], max_length=10, verbose_name='Estado Civil')),
                 ('cpf', models.CharField(max_length=14, verbose_name='CPF')),
                 ('data_nascimento', models.DateField(blank=True, null=True)),
                 ('email', models.EmailField(blank=True, max_length=100, null=True)),
