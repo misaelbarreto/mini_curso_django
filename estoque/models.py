@@ -24,6 +24,7 @@ class Produto(models.Model):
     # Quantidade em estoque é uma informação redundante. Pensando a longo prazo, pode ficar muito caro ficar calculando
     # isso com base nas entradas e saídas registradas no estoque.
     quantidade_em_estoque = models.IntegerField(verbose_name='Quantidade Em Estoque', default=0, editable=False)
+    data_ultima_atualizacao = models.DateTimeField(verbose_name='Data da Última Atualização', auto_now=True, editable=False)
 
     class Meta:
         verbose_name = 'Produto'
@@ -37,17 +38,20 @@ class Produto(models.Model):
 class Estoque(models.Model):
     TIPO_MOVIMENTACAO_ENTRADA = 'ENTRADA'
     TIPO_MOVIMENTACAO_SAIDA = 'SAIDA'
-    TIPO_MOVIMENTACAO_VENDA = 'VENDA'
+    TIPO_MOVIMENTACAO_VENDA_EFETUADA = 'VENDA_EFETUADA'
+    TIPO_MOVIMENTACAO_VENDA_CANCELADA = 'VENDA_CANCELADA'
     TIPO_MOVIMENTACAO_CHOICES = (
         (TIPO_MOVIMENTACAO_ENTRADA, u'Entrada'),
         (TIPO_MOVIMENTACAO_SAIDA, u'Saída'),
-        (TIPO_MOVIMENTACAO_VENDA, u'Venda'),
+        (TIPO_MOVIMENTACAO_VENDA_EFETUADA, u'Venda Efetuada'),
+        (TIPO_MOVIMENTACAO_VENDA_CANCELADA, u'Venda Cancelada'),
     )
 
     produto = models.ForeignKey(to=Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField(verbose_name='Quantidade')
     tipo_movimentacao = models.CharField(verbose_name='Tipo de Movimentação', max_length=10, choices=TIPO_MOVIMENTACAO_CHOICES)
     observacao = models.CharField(verbose_name='Observação', max_length=255, blank=True, null=True)
+    data = models.DateTimeField(verbose_name='Data', auto_now=True,editable=False)
 
     class Meta:
         verbose_name = 'Estoque'
@@ -68,9 +72,9 @@ class Estoque(models.Model):
 
     def __get_saldo_quantidade_em_estoque(self):
         # Atualizando a informação da quantidade em estoque do produto.
-        if self.tipo_movimentacao == Estoque.TIPO_MOVIMENTACAO_ENTRADA:
+        if self.tipo_movimentacao in [Estoque.TIPO_MOVIMENTACAO_ENTRADA, Estoque.TIPO_MOVIMENTACAO_VENDA_CANCELADA]:
             return self.produto.quantidade_em_estoque + self.quantidade
-        elif self.tipo_movimentacao in [Estoque.TIPO_MOVIMENTACAO_SAIDA, Estoque.TIPO_MOVIMENTACAO_VENDA]:
+        elif self.tipo_movimentacao in [Estoque.TIPO_MOVIMENTACAO_SAIDA, Estoque.TIPO_MOVIMENTACAO_VENDA_EFETUADA]:
             if self.produto.quantidade_em_estoque <= self.quantidade:
                 raise ValidationError('O saldo atual de "{}" é de {}. Impossível realizar uma baixa de {}.'\
                                       .format(self.produto, self.produto.quantidade_em_estoque, self.quantidade))
