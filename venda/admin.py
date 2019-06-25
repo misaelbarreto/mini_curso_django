@@ -2,8 +2,12 @@ from django.contrib import admin
 from .models import Venda, VendaItem
 
 # Register your models here.
+class VendaItemInline(admin.StackedInline):
+    model = VendaItem
+    extra = 3
 
 class VendaAdmin(admin.ModelAdmin):
+    inlines = [VendaItemInline]
     list_display = ('__str__', 'cliente', 'get_client_cpf', 'data_hora', 'qtd_vendaitens')
     search_fields = ['cliente__nome', 'cliente__cpf']
 

@@ -45,6 +45,24 @@ class VendaItem(models.Model):
     def __str__(self):
         return '{} - Item Nº {}'.format(self.venda, self.numero_item)
 
+    def __alteracao_proibida_detectada(self):
+        venda_old = VendaItem.objects.get(pk=self.pk)
+        if (self.venda != venda_old.venda
+            or self.numero_item != venda_old.numero_item
+            or self.produto != venda_old.produto
+            or self.quantidade != venda_old.quantidade
+            or self.preco != venda_old.preco):
+            return True
+        else:
+            return False
+
+    def _get_estoque_instance_to_record(self):
+        estoque = Estoque(produto=self.produto,
+                          quantidade=self.quantidade,
+                          tipo_movimentacao=Estoque.TIPO_MOVIMENTACAO_VENDA_CANCELADA if self.item_cancelado else Estoque.TIPO_MOVIMENTACAO_VENDA_EFETUADA,
+                          observacao=self)
+        return estoque
+
     def clean(self):
         is_insert = not self.id
 
@@ -57,28 +75,9 @@ class VendaItem(models.Model):
             if self.__alteracao_proibida_detectada():
                 raise ValidationError('Os dados da item da venda não podem ser alterados.')
 
-        self.__get_estoque_instance().clean()
+        # Chamando a validação de estoque, para ver se não há nenhuma regra que está sendo ferida.
+        self._get_estoque_instance_to_record().clean()
         super().clean()
-
-
-    def __alteracao_proibida_detectada(self):
-        old = VendaItem.objects.get(pk=self.pk)
-        if (self.venda != old.venda
-            or self.numero_item != old.numero_item
-            or self.produto != old.produto
-            or self.quantidade != old.quantidade
-            or self.preco != old.preco):
-            return True
-        else:
-            return False
-
-
-    def __get_estoque_instance(self):
-        # Fazendo o registro do item da venda no estoque.
-        estoque = Estoque(produto=self.produto, quantidade=self.quantidade,
-                          tipo_movimentacao=Estoque.TIPO_MOVIMENTACAO_VENDA_CANCELADA if self.item_cancelado else Estoque.TIPO_MOVIMENTACAO_VENDA_EFETUADA,
-                          observacao=self)
-        return estoque
 
     @transaction.atomic()
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -89,7 +88,7 @@ class VendaItem(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
         # Executando o registro da venda junto ao estoque.
-        self.__get_estoque_instance().save()
+        self._get_estoque_instance_to_record().save()
 
     def delete(self, using=None, keep_parents=False):
         raise ValidationError('O item de uma venda não pode ser excluído, apenas cancelado.')

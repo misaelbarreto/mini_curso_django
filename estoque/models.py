@@ -61,17 +61,12 @@ class Estoque(models.Model):
     def __str__(self):
         return '{} - {} - {}'.format(self.produto, self.quantidade, self.tipo_movimentacao)
 
-    def clean(self):
-        if self.id:
-            raise ValidationError('Os registros de estoque não podem ser editados.');
-        else:
-            self.__get_saldo_quantidade_em_estoque()
+    def _get_saldo_quantidade_em_estoque(self):
+        '''
+        Este método retorna o saldo disponível em estoque caso a movimentação vigente seja concretizada.
+        :return: saldo disponível em estoque
+        '''
 
-    def delete(self, using=None, keep_parents=False):
-        raise ValidationError('Os registros de estoque não podem ser removidos.');
-
-    def __get_saldo_quantidade_em_estoque(self):
-        # Atualizando a informação da quantidade em estoque do produto.
         if self.tipo_movimentacao in [Estoque.TIPO_MOVIMENTACAO_ENTRADA, Estoque.TIPO_MOVIMENTACAO_VENDA_CANCELADA]:
             return self.produto.quantidade_em_estoque + self.quantidade
         elif self.tipo_movimentacao in [Estoque.TIPO_MOVIMENTACAO_SAIDA, Estoque.TIPO_MOVIMENTACAO_VENDA_EFETUADA]:
@@ -80,11 +75,18 @@ class Estoque(models.Model):
                                       .format(self.produto, self.produto.quantidade_em_estoque, self.quantidade))
             return self.produto.quantidade_em_estoque - self.quantidade
 
+    def clean(self):
+        if self.id:
+            raise ValidationError('Os registros de estoque não podem ser editados.');
+        else:
+            self._get_saldo_quantidade_em_estoque()
 
     @transaction.atomic()
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.produto.quantidade_em_estoque = self.__get_saldo_quantidade_em_estoque()
+        self.produto.quantidade_em_estoque = self._get_saldo_quantidade_em_estoque()
         self.produto.save()
         super().save(force_insert, force_update, using, update_fields)
 
+    def delete(self, using=None, keep_parents=False):
+        raise ValidationError('Os registros de estoque não podem ser removidos.');
 
