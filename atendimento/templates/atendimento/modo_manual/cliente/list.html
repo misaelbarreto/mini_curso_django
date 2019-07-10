@@ -1,0 +1,19 @@
+<!-- mini_curso_django/templates/base.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Listagem de Clientes (Total de Registros: {{ clientes.count }}){% endblock %}
+
+{% block content %}
+    <h1>Clientes</h1>
+    <img src="{% static "atendimento/modo_manual/images/cliente.jpg" %}" alt="Logo" width="15%">
+
+    {% for cliente in clientes %}
+        <ul>
+            <li>
+                <p>{{ cliente.id }} / Nome: {{ cliente.nome }} / Data de
+                    Nascimento {{ cliente.data_nascimento|date:"F j, Y" }}</p>
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

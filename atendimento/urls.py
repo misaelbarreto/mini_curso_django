@@ -10,5 +10,8 @@ urlpatterns = [
     path('index4a', views.index4a, name='index4a'),
     path('index4b', views.index4b, name='index4b'),
     path('index4b/<int:idade>', views.index4b, name='index4b'),
+
+    # Modo Manual
+    path('cliente/manual/list', views.modo_manual_list, name='modo_manual_list'),
 ]
 

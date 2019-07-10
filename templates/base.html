@@ -1,0 +1,11 @@
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <!-- Ex: mini_curso_django/static/images/logo.jpg -->
+    <img src="{% static "images/logo.jpg" %}" alt="Logo" width="15%">
+    {% block content %}{% endblock %}
+</body>
+</html>

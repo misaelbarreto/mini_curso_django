@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'na-=a1w%y-&475(a&=yxdfhzp@@qa5k9k0k833fbngmp&26u_u'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -54,11 +52,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mini_curso_django.urls'
 
+# https://docs.djangoproject.com/pt-br/2.2/topics/templates/#support-for-template-engines
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
+        # DIRS indica uma lista de diretórios que será usada na busca por templates.
+        #
+        # APP_DIRS, se True, indica que deverá ocorrer uma busca por templates dentro de uma pasta chamada  "templates"
+        # em cada aplicação.
+        #
+        # A busca por templates ocorre primeiro em DIRS e depois na pasta "templates" (caso APP_DIRS==True). No primeiro
+        # diretório que a engine do banco encontrar o template, a busca é encerrada.
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
+
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -72,7 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mini_curso_django.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -82,7 +89,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -102,14 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'pt-BR'
-
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -124,8 +128,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
+# https://docs.djangoproject.com/pt-br/2.2/howto/static-files/
 
+# STATICFILES_DIRS indica uma lista de diretórios que serão usados na busca por arquivos estáticos.
+# STATIC_URL é o diretório no qual cada aplicação poderá armazenar os seus arquivos estáticos.
+# Funcionamento: A busca por arquivos estáticos ocorre primeiro em STATICFILES_DIRS e depois no diretório STATIC_URL de
+# cada aplicação. No primeiro diretório que a engine do django encontrar o arquivo, a busca é encerrada.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 STATIC_URL = '/static/'

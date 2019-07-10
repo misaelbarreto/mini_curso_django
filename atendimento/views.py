@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.template import Template, Context, loader
 from django.shortcuts import render
 
+from .models import Cliente
+
 # Create your views here.
 
 # Exemplo de controle que retorna como resposta um texto simples.
@@ -44,3 +46,15 @@ def index4b(request, idade=None):
     # locals() retorna um dicionário contento todos as variáveis locais disponíveis.
     # print(locals())
     return render(request, 'atendimento/index4.html', locals())
+
+
+
+'''
+- - - - - - - - - - - - - - 
+Controle Manual de Clientes
+- - - - - - - - - - - - - - 
+'''
+def modo_manual_list(request):
+    clientes = Cliente.objects.all()
+    context = {'clientes': clientes}
+    return render(request, 'atendimento/modo_manual/cliente/list.html', context)
