@@ -130,6 +130,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/pt-br/2.2/howto/static-files/
+# https://docs.djangoproject.com/pt-br/2.2/ref/settings/#static-files
+# https://docs.djangoproject.com/pt-br/2.2/ref/settings/#staticfiles-finders
 
 # STATICFILES_DIRS indica uma lista de diretórios que serão usados na busca por arquivos estáticos.
 # STATIC_URL é o diretório no qual cada aplicação poderá armazenar os seus arquivos estáticos.
@@ -139,3 +141,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_URL = '/static/'
+
+# Para servir arquivos estáticos em produção, leia:
+# https://docs.djangoproject.com/pt-br/2.2/howto/static-files/deployment/
+# STATIC_ROOT = 'deploy/static/'
