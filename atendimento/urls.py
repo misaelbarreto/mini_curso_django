@@ -12,6 +12,7 @@ urlpatterns = [
     path('index4b/<int:idade>', views.index4b, name='index4b'),
 
     # Modo Manual
-    path('cliente/manual/list', views.modo_manual_list, name='modo_manual_list'),
+    path('cliente/manual/list', views.modo_manual_cliente_list, name='modo_manual_cliente_list'),
+    path('cliente/manual/list2', views.ModoManualClienteListView.as_view(), name='modo_manual_cliente_list_view'),
 ]
 

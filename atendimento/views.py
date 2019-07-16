@@ -3,6 +3,7 @@ import datetime
 from django.http import HttpResponse
 from django.template import Template, Context, loader
 from django.shortcuts import render
+from django.views import generic
 
 from .models import Cliente
 
@@ -54,7 +55,14 @@ def index4b(request, idade=None):
 Controle Manual de Clientes
 - - - - - - - - - - - - - - 
 '''
-def modo_manual_list(request):
+def modo_manual_cliente_list(request):
     clientes = Cliente.objects.all()
     context = {'clientes': clientes}
     return render(request, 'atendimento/modo_manual/cliente/list.html', context)
+
+class ModoManualClienteListView(generic.ListView):
+    template_name = 'atendimento/modo_manual/cliente/list.html'
+    context_object_name = 'clientes'
+
+    def get_queryset(self):
+        return Cliente.objects.all()
