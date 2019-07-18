@@ -16,13 +16,14 @@ class Cliente(models.Model):
     nome = models.CharField(verbose_name='Nome', max_length=100)
     estado_civil = models.CharField(verbose_name='Estado Civil', max_length=10, choices=ESTADO_CIVIL_CHOICES)
     cpf = models.CharField(verbose_name='CPF', max_length=14)
-    data_nascimento = models.DateField(blank=True, null=True)
-    email = models.EmailField(max_length=100, blank=True, null=True)
+    data_nascimento = models.DateField('Data de Nascimento', blank=True, null=True)
+    email = models.EmailField('E-mail', max_length=100, blank=True, null=True)
+    data_hora_cadastro = models.DateTimeField('Data de Cadastro', auto_now_add=True)
 
     class Meta:
         ordering = ['nome']
 
-    # Label padrão que será exibido em toda o admin do Django.
+    # Retorna a representação padrão desse modelo.
     def __str__(self):
         return self.nome
 

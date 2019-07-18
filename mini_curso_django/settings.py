@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'atendimento',
+
+    'atendimento', # Outra opção: 'atendimento.apps.AtendimentoConfig'
     'estoque',
     'venda',
 ]
@@ -81,8 +82,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mini_curso_django.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+# https://docs.djangoproject.com/pt-br/2.2/intro/tutorial02/#database-setup
+# https://docs.djangoproject.com/pt-br/2.2/ref/databases/#third-party-notes
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -126,7 +128,63 @@ USE_I18N = True
 
 USE_L10N = True
 
+
+
+"""
+Quando for preciso pegar a data e hora corrente, prefira usar (A) "from django.utils import timezone; timezone.now()";
+do que (B) "import datetime; datetime.datetime.now()".
+
+Observação: Caso o USE_TZ seja True, o Django sempre vai armazenar a data e hora no timezone UTC, não importando se o dado
+foi setado usando a abordagem (A) ou (B). Obs: O Django, no caso da data setada usando a abordagem (B), ajusta a data
+de forma a persistí-la usando o timezone UTC. Veja o exemplo abaixo e o warning exibido pelo Django.
+
+>>> from django.utils import timezone; import datetime;timezone.now(); datetime.datetime.now();
+datetime.datetime(2019, 7, 18, 0, 40, 1, 870797, tzinfo=<UTC>)
+datetime.datetime(2019, 7, 17, 21, 40, 1, 870917)
+
+>>> from atendimento.models import Cliente
+>>> Cliente.objects.filter(id=1).update(data_hora_cadastro=datetime.datetime.now())
+..lib/python3.7/site-packages/django/db/models/fields/__init__.py:1421:
+RuntimeWarning: DateTimeField Cliente.data_hora_cadastro received a naive datetime (2019-07-17 21:41:00.786135)   <<< Data setada.
+while time zone support is active. RuntimeWarning)
+1
+
+>>> Cliente.objects.filter(id=1)[0].data_hora_cadastro
+datetime.datetime(2019, 7, 18, 0, 41, 0, 786135, tzinfo=<UTC>)   <<< Data ajustada pelo Django.
+"""
+
+
+"""
+Abaixo temos o exemplo do uso das abordagens (A) e (B) com o USE_TZ True e False.
+Obs: is_naive = não há informação da timezone / is_aware = há informação do timezone
+
 USE_TZ = True
+>>> from django.utils import timezone; data_a = timezone.now(); data_a; timezone.is_naive(data_a); timezone.is_aware(data_a);
+datetime.datetime(2019, 7, 18, 1, 5, 50, 462566, tzinfo=<UTC>)
+False
+True
+>>> import datetime; data_b = datetime.datetime.now(); data_b; timezone.is_naive(data_b); timezone.is_aware(data_b);
+datetime.datetime(2019, 7, 17, 22, 5, 59, 144102)
+True
+False
+
+
+USE_TZ = False
+>>> from django.utils import timezone; data_a = timezone.now(); data_a; timezone.is_naive(data_a); timezone.is_aware(data_a);
+datetime.datetime(2019, 7, 17, 22, 7, 31, 590461)
+True
+False
+>>> import datetime; data_b = datetime.datetime.now(); data_b; timezone.is_naive(data_b); timezone.is_aware(data_b);
+datetime.datetime(2019, 7, 17, 22, 7, 37, 729420)
+True
+False
+>>> 
+"""
+# https://docs.djangoproject.com/pt-br/2.2/topics/i18n/timezones/
+USE_TZ = False
+
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/pt-br/2.2/howto/static-files/

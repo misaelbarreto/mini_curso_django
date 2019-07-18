@@ -12,7 +12,7 @@ class ClienteAdmin(admin.ModelAdmin):
     fields = ['nome', 'cpf', 'estado_civil',]
     search_fields = ['nome', 'cpf']
     list_filter = ['estado_civil', ]
-    list_display = ('nome', 'cpf', 'estado_civil', 'data_nascimento', 'email')
+    list_display = ('nome', 'cpf', 'estado_civil', 'data_nascimento', 'email', 'data_hora_cadastro')
     list_display_links = ('nome',)
 
 admin.site.register(Cliente, ClienteAdmin)

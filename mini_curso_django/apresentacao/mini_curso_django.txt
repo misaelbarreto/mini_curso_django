@@ -287,10 +287,12 @@ Usando o aplicativo Django Admin ('django.contrib.admin')
 Django - Workflow Primário
 - - - - - - - - - - - - - -
 Crie seus modelos
+
 Use o "admin site" para gerenciá-los
     Utilize o Admin "puro"
     Utilize o Admin + Forms
-Workflow executado rapidamente, com usuário cadastrando os dados em pouco tempo.
+
+Workflow executado rapidamente, com usuário cadastrando o conteúdo em pouco tempo.
 
 
 
@@ -298,7 +300,7 @@ Django - Workflow Secundário
 - - - - - - - - - - - - - - -
 Personalizar a GUI do "admin site"
     Sobreescrever templates, redefinindo html, css, js etc.
-    Criar views para complementar o "admin site" (Obs: Simular ao  "Criar o próprio site")
+    Criar views para complementar o "admin site" (Obs: Similar ao "Criar o próprio site")
 
 Criar o próprio site
     Criar os templates
@@ -315,9 +317,30 @@ Criar o próprio site
         Forms "automáticos"
         Forms montandos manualmente
             Field a Field
-            Manual 100% "roots"
+            Field a Field Manual (100% "roots")
 
 Esse workflow necessita de mais tempo para ser executado.
+
+
+
+Templates
+    Variáveis
+        .atributo
+        .chave de dicionário
+        .indíce de lista
+        .funcao(que não tenham de parâmatros obrigatórios)
+        |filtro param1 param2
+        |filtro1|filtro2|filtroN ...
+
+    Template Tags
+        {% load poll_extras %}
+        {% if ... %}
+
+
+    Herança de Templates
+        {% extends "base.html" %}
+        {% block title %}Articles for {{ year }}{% endblock %}
+
 
 
 
