@@ -1,0 +1,37 @@
+<h2>Snippet 3</h2>
+
+{{ form.non_field_errors }}
+<div class="fieldWrapper">
+    {{ form.nome.errors }}
+    {{ form.nome.label_tag }}
+    {{ form.nome }}
+</div>
+<div class="fieldWrapper">
+    {{ form.estado_civil.errors }}
+    {{ form.estado_civil.label_tag }}
+    {{ form.estado_civil }}
+</div>
+<div class="fieldWrapper">
+    {#    {{ form.cpf.errors }}#}
+    {# Exemplo de uma simples personalização das msgs de erro. #}
+    {% if form.cpf.errors %}
+        <ol>
+            {% for error in form.cpf.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+    {{ form.cpf.label_tag }}
+    {{ form.cpf }}
+</div>
+<div class="fieldWrapper">
+    {{ form.data_nascimento.errors }}
+    {{ form.data_nascimento.label_tag }}
+    {{ form.data_nascimento }}
+</div>
+<div class="fieldWrapper">
+    {{ form.email.errors }}
+    {{ form.email.label_tag }}
+    {{ form.email }}
+</div>

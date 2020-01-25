@@ -1,0 +1,18 @@
+<h2>Snippet 4</h2>
+
+{{ form.non_field_errors }}
+
+{#  https://docs.djangoproject.com/pt-br/3.0/topics/forms/#looping-over-the-form-s-fields  #}
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.field.max_length %} (Tamanho máximo: {{ field.field.max_length }}) {% endif %}
+
+        {% if field.help_text %}
+            <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}

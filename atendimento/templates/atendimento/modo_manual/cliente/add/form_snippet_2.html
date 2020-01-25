@@ -1,0 +1,28 @@
+<h2>Snippet 2</h2>
+
+{{ form.non_field_errors }}
+<div class="fieldWrapper">
+    {{ form.nome.errors }}
+    <label for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+    {{ form.nome }}
+</div>
+<div class="fieldWrapper">
+    {{ form.estado_civil.errors }}
+    <label for="{{ form.estado_civil.id_for_label }}">{{ form.estado_civil.label }}</label>
+    {{ form.estado_civil }}
+</div>
+<div class="fieldWrapper">
+    {{ form.cpf.errors }}
+    <label for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+    {{ form.cpf }}
+</div>
+<div class="fieldWrapper">
+    {{ form.data_nascimento.errors }}
+    <label for="{{ form.data_nascimento.id_for_label }}">{{ form.data_nascimento.label }}</label>
+    {{ form.data_nascimento }}
+</div>
+<div class="fieldWrapper">
+    {{ form.email.errors }}
+    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+    {{ form.email }}
+</div>

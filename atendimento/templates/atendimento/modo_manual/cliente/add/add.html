@@ -1,0 +1,24 @@
+<!-- mini_curso_django/templates/base.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro de Clientes{% endblock %}
+
+{% block content %}
+    <h1>Cadastro de Clientes</h1>
+
+    <!-- Comentário impresso no html -->
+    {# Comentário não impresso no html #}
+
+    {#  "novalidate" desativa a validação básica do lado cliente dos navegadores.  #}
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+
+        {#  Experimente as várias formas de se montar um mesmo form. #}
+        {#  https://docs.djangoproject.com/pt-br/3.0/topics/forms/  #}
+        {% include "./form_snippet_5.html" %}
+        {#  {% include "/.form_snippet_5.html" with snippet_variable=this_template_variable %}  #}
+
+        <input type="submit" value="Cadastrar">
+    </form>
+{% endblock %}

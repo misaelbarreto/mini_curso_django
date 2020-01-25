@@ -31,10 +31,12 @@ class Cliente(models.Model):
     # ou forms, assim temos o código em um só local e facilitamos a sua manutenção.
     # ModelForms invocam o método clean() antes de chamar o método save(). Obs:  Admin utiliza internamente um ModelForm.
     def clean(self):
+        is_insert = not self.pk
         if self.nome:
             self.nome = self.nome.strip()
             if len(self.nome.split(' ')) < 2:
                 raise ValidationError({'nome':'Nome e sobrenome são requeridos.'})
 
-        super().clean()
+        if is_insert and Cliente.objects.filter(cpf=self.cpf):
+            raise ValidationError('Já existe um(a) cliente cadastrado(a) com o cpf "{}".'.format(self.cpf))
 

@@ -11,8 +11,8 @@
     {% for cliente in clientes %}
         <ul>
             <li>
-                <p>{{ cliente.id }} / Nome: {{ cliente.nome }} / Data de
-                    Nascimento {{ cliente.data_nascimento|date:"F j, Y" }}</p>
+                <p>{{ cliente.id }} / Nome: {{ cliente.nome }} / CPF: {{ cliente.cpf }} / Data de
+                    Nascimento: {{ cliente.data_nascimento|date:"j F Y" }}</p>
             </li>
         </ul>
     {% endfor %}
