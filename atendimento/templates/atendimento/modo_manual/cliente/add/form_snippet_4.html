@@ -7,9 +7,14 @@
     <div class="fieldWrapper">
         {{ field.errors }}
 
+        {{ field.field.label }}
         {{ field.label_tag }}
         {{ field }}
-        {% if field.field.max_length %} (Tamanho máximo: {{ field.field.max_length }}) {% endif %}
+        {% if field.field.max_length %}(Tamanho máximo: {{ field.field.max_length }}) {% endif %}
+        (Tipo: {{ field.field.widget.input_type }})
+
+        {#  {{ field.field.name }}  #}
+        {#  {{ field.field.value }}  #}
 
         {% if field.help_text %}
             <p class="help">{{ field.help_text|safe }}</p>

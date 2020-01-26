@@ -65,6 +65,7 @@ TEMPLATES = [
         #
         # A busca por templates ocorre primeiro em DIRS e depois na pasta "templates" (caso APP_DIRS==True). No primeiro
         # diretório que a engine do banco encontrar o template, a busca é encerrada.
+        # Ex: mini_curso_django/templates
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
 
@@ -191,13 +192,16 @@ USE_TZ = False
 # https://docs.djangoproject.com/pt-br/2.2/ref/settings/#static-files
 # https://docs.djangoproject.com/pt-br/2.2/ref/settings/#staticfiles-finders
 
-# STATICFILES_DIRS indica uma lista de diretórios que serão usados na busca por arquivos estáticos.
-# STATIC_URL é o diretório no qual cada aplicação poderá armazenar os seus arquivos estáticos.
-# Funcionamento: A busca por arquivos estáticos ocorre primeiro em STATICFILES_DIRS e depois no diretório STATIC_URL de
-# cada aplicação. No primeiro diretório que a engine do django encontrar o arquivo, a busca é encerrada.
+# Por padrão, cada aplicação poderá contar com uma pasta chamada "static" para armazenar os seus arquivos estáticos.
+# Ex: mini_curso_django/atendimento/static
+# Além disso, caso seja necessário, como por exemplo nos casos em que há arquivos estáticos compartilhados entre as
+# apps, é possível através da variável STATICFILES_DIRS definir outros diretórios aonde desses arquivos poderão ser
+# armazenados.
 STATICFILES_DIRS = [
+    # Ex: mini_curso_django/static
     os.path.join(BASE_DIR, "static"),
 ]
+
 STATIC_URL = '/static/'
 
 # Para servir arquivos estáticos em produção, leia:

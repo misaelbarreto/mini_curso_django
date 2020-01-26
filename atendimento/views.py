@@ -79,6 +79,8 @@ class ModoManualClienteListView(generic.ListView):
 def modo_manual_client_add(request):
     if request.method == 'POST':
         # Quando o form é populado, ele é chamado de Bound Form (método is_bound retorna True)
+        # request.POST traz todos os dados submetidos no formulário que tiverem o atributo "name" definido, inclusive
+        # botões.
         form = ClienteManualForm(request.POST)
 
         # Pecorrendo todos os fields, na perspectiva html (classe django.forms.boundfield.BoundField), de um form.
