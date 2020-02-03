@@ -1,12 +1,15 @@
 import datetime
 
+from django.contrib import messages
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.template import Template, Context, loader
-from django.shortcuts import render
 from django.views import generic
 
-from .models import Cliente
 from .forms import ClienteManualForm
+from .models import Cliente
+
+from mini_curso_django import settings
 
 
 # Create your views here.
@@ -89,8 +92,6 @@ def modo_manual_client_add(request):
         for boundfield in form:
             print(boundfield, boundfield.id_for_label,  boundfield.data, boundfield.errors, boundfield.field)
 
-
-
         # Ao chamar o "is_valid", as validações a nível de form são chamadas. O retorno será True caso esteja tudo certo,
         # caso contrário será false e haverá dentro do objeto form dados sobre os erros encontrados.
         if form.is_valid():
@@ -100,11 +101,27 @@ def modo_manual_client_add(request):
                                   cpf=form.cleaned_data['cpf'],
                                   data_nascimento=form.cleaned_data['data_nascimento'],
                                   email=form.cleaned_data['email'])
+                # A título de exemplificação, como ClienteManualForm é um Form comum, e não um ModelForm, então a
+                # validação de cliente não é chamada utomaticamente, por isso estamos realizando a chamada aqui.
                 cliente.clean()
                 cliente.save()
-                return HttpResponse('Cadastro realizado com sucesso.')
+
+                # Exemplo Retorno 1
+                # return HttpResponse('Cadastro realizado com sucesso.')
+
+                # Exemplo Retorno 2
+                # https://docs.djangoproject.com/en/3.0/topics/http/shortcuts/#redirect
+                # https://docs.djangoproject.com/en/3.0/ref/urlresolvers/#django.urls.reverse
+                messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
+                return redirect('modo_manual_client_add')
             except Exception as e:
-                return HttpResponse(str(e))
+                # Exemplo Retorno 1
+                # return HttpResponse(str(e))
+
+                # Exemplo Retorno 2
+                error_message = '{}{}'.format('Erro ao tentar realizar o cadastro.',
+                                              str(e) if settings.DEBUG else '')
+                messages.add_message(request, messages.ERROR, error_message)
     else:
         # Quando o form está zerado, ele é chamado de Unound Form (método is_bound retorna False)
         form = ClienteManualForm()

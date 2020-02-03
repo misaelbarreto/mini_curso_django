@@ -7,6 +7,16 @@
 {% block content %}
     <h1>Cadastro de Clientes</h1>
 
+    {% if messages %}
+        {# Atenção: A variável messages é controlada pela aplicação "django.contrib.messages", enquanto que as variáveis de #}
+        {# "form.non_field_errors" e "{{ field.errors }}" são controladas e disparadas pela classe Form. #}
+        <ul class="messages">Messages:
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <!-- Comentário impresso no html -->
     {# Comentário não impresso no html #}
 
