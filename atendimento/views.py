@@ -102,7 +102,7 @@ def modo_manual_client_add(request):
                                   data_nascimento=form.cleaned_data['data_nascimento'],
                                   email=form.cleaned_data['email'])
                 # A título de exemplificação, como ClienteManualForm é um Form comum, e não um ModelForm, então a
-                # validação de cliente não é chamada utomaticamente, por isso estamos realizando a chamada aqui.
+                # validação de cliente não é chamada automaticamente, por isso estamos realizando a chamada aqui.
                 cliente.clean()
                 cliente.save()
 

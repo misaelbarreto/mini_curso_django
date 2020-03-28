@@ -1,0 +1,41 @@
+<!-- mini_curso_django/templates/base.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro de Tipos de Produto{% endblock %}
+
+{% block content %}
+    <h1>Cadastro de Tipos de Produto</h1>
+
+    {% if messages %}
+        {# Atenção: A variável messages é controlada pela aplicação "django.contrib.messages", enquanto que as variáveis de #}
+        {# "form.non_field_errors" e "{{ field.errors }}" são controladas e disparadas pela classe Form. #}
+        <ul class="messages">Messages:
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Comentário impresso no html -->
+    {# Comentário não impresso no html #}
+
+    {#  "novalidate" desativa a validação básica do lado cliente dos navegadores.  #}
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+
+        <div>
+            {{ tipo_produto_form }}
+        </div>
+
+        <h3>Indique pelo menos 2 Produtos</h3>
+        {% for pf in produto_forms %}
+            <div>
+                {#  https://docs.djangoproject.com/en/3.0/topics/forms/#working-with-form-templates  #}
+                {{ pf.as_table }}
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Cadastrar" style="margin-top: 10px;">
+    </form>
+{% endblock %}
