@@ -1,0 +1,7 @@
+Formsets
+- - - -
+https://docs.djangoproject.com/en/3.0/topics/forms/formsets/
+https://medium.com/@adandan01/django-inline-formsets-example-mybook-420cc4b6225d
+https://www.youtube.com/watch?v=lWV177es1bE
+https://www.youtube.com/watch?v=JIvJL1HizP4
+https://www.youtube.com/watch?v=FnZgy-y6hGA

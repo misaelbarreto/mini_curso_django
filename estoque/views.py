@@ -2,6 +2,8 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from estoque.models import TipoProduto
 from .forms import TipoProdutoForm, ProdutoForm, ProdutoFormset
 
 # Create your views here.
@@ -72,4 +74,30 @@ def modo_manual_tipo_produto_add_2(request):
 
     return render(request,
                   'estoque/modo_manual/tipo_produto/add/add_2.html',
+                  {'tipo_produto_form': tipo_produto_form, 'produto_formset': produto_formset})
+
+
+@transaction.atomic()
+def modo_manual_tipo_produto_add_or_edit(request, id=None):
+    try:
+        tipo_produto = TipoProduto.objects.get(id=id)
+    except TipoProduto.DoesNotExist:
+        tipo_produto = TipoProduto()
+
+    tipo_produto_form = TipoProdutoForm(data=request.POST or None,
+                                        files=request.FILES or None,
+                                        instance=tipo_produto)
+    produto_formset = ProdutoFormset(data=request.POST or None,
+                                     files=request.FILES or None,
+                                     instance=tipo_produto)
+
+    if request.method == 'POST':
+        if tipo_produto_form.is_valid() and produto_formset.is_valid():
+            tipo_produto_form.save()
+            produto_formset.save()
+            messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
+            return redirect('modo_manual_tipo_produto_add_or_edit', id=tipo_produto.id)
+
+    return render(request,
+                  'estoque/modo_manual/tipo_produto/add_or_edit.html',
                   {'tipo_produto_form': tipo_produto_form, 'produto_formset': produto_formset})
