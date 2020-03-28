@@ -36,22 +36,39 @@ def modo_manual_tipo_produto_add(request):
                   'estoque/modo_manual/tipo_produto/add/add.html',
                   {'tipo_produto_form': tipo_produto_form, 'produto_forms': produto_forms})
 
+# @transaction.atomic()
+# def modo_manual_tipo_produto_add_2(request):
+#     tipo_produto_form = TipoProdutoForm()
+#     produto_formset = ProdutoFormset()
+#
+#     if request.method == 'POST':
+#         tipo_produto_form = TipoProdutoForm(request.POST)
+#         if tipo_produto_form.is_valid():
+#             tipo_produto = tipo_produto_form.save(commit=False)
+#             produto_formset = ProdutoFormset(request.POST, request.FILES, instance=tipo_produto)
+#             if produto_formset.is_valid():
+#                 tipo_produto.save()
+#                 produto_formset.save()
+#                 messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
+#                 return redirect('modo_manual_tipo_produto_add_2')
+#
+#     return render(request,
+#                   'estoque/modo_manual/tipo_produto/add/add_2.html',
+#                   {'tipo_produto_form': tipo_produto_form, 'produto_formset': produto_formset})
 
 @transaction.atomic()
 def modo_manual_tipo_produto_add_2(request):
-    tipo_produto_form = TipoProdutoForm()
-    produto_formset = ProdutoFormset()
+    tipo_produto_form = TipoProdutoForm(request.POST or None, request.FILES or None)
+    produto_formset = ProdutoFormset(request.POST or None, request.FILES or None)
 
     if request.method == 'POST':
-        tipo_produto_form = TipoProdutoForm(request.POST)
-        if tipo_produto_form.is_valid():
-            tipo_produto = tipo_produto_form.save(commit=False)
-            produto_formset = ProdutoFormset(request.POST, request.FILES, instance=tipo_produto)
-            if produto_formset.is_valid():
-                tipo_produto.save()
-                produto_formset.save()
-                messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
-                return redirect('modo_manual_tipo_produto_add_2')
+        if tipo_produto_form.is_valid() and produto_formset.is_valid():
+            tipo_produto = tipo_produto_form.save()
+
+            produto_formset.instance = tipo_produto
+            produto_formset.save()
+            messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
+            return redirect('modo_manual_tipo_produto_add_2')
 
     return render(request,
                   'estoque/modo_manual/tipo_produto/add/add_2.html',
