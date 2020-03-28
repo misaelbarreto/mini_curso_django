@@ -1,0 +1,16 @@
+<!-- mini_curso_django/templates/base.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro de Tipos de Produto{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {{ tipo_produto_form }}
+
+    {{ produto_formset.as_p }}
+    <input type="submit" value="Salvar"/>
+</form>
+{% endblock %}
+

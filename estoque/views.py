@@ -2,7 +2,7 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import TipoProdutoForm, ProdutoForm
+from .forms import TipoProdutoForm, ProdutoForm, ProdutoFormset
 
 # Create your views here.
 
@@ -31,6 +31,28 @@ def modo_manual_tipo_produto_add(request):
             # return HttpResponseRedirect('/estoque/tipo_produto/manual/add/')
             return redirect('modo_manual_tipo_produto_add')
 
+    # https://stackoverflow.com/questions/5154358/django-what-is-the-difference-between-render-render-to-response-and-direc
     return render(request,
                   'estoque/modo_manual/tipo_produto/add/add.html',
                   {'tipo_produto_form': tipo_produto_form, 'produto_forms': produto_forms})
+
+
+@transaction.atomic()
+def modo_manual_tipo_produto_add_2(request):
+    tipo_produto_form = TipoProdutoForm()
+    produto_formset = ProdutoFormset()
+
+    if request.method == 'POST':
+        tipo_produto_form = TipoProdutoForm(request.POST)
+        if tipo_produto_form.is_valid():
+            tipo_produto = tipo_produto_form.save(commit=False)
+            produto_formset = ProdutoFormset(request.POST, request.FILES, instance=tipo_produto)
+            if produto_formset.is_valid():
+                tipo_produto.save()
+                produto_formset.save()
+                messages.add_message(request, messages.INFO, 'Cadastro realizado com sucesso')
+                return redirect('modo_manual_tipo_produto_add_2')
+
+    return render(request,
+                  'estoque/modo_manual/tipo_produto/add/add_2.html',
+                  {'tipo_produto_form': tipo_produto_form, 'produto_formset': produto_formset})
