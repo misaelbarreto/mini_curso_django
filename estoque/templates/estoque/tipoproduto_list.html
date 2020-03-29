@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+    <h2>Here are all user tipo_produtos: </h2>
+    <div>
+        <ul>
+            {% for tipo_produto in object_list %}
+                <li>{{ tipo_produto.id }} {{ tipo_produto.descricao }} |
+                    <a href="{% url 'tipo_produto-update' tipo_produto.pk %}">edit</a>
+                    <a href="{% url 'tipo_produto-delete' tipo_produto.pk %}">delete</a>
+                </li>
+            {% empty %}
+                <li>No tipo_produto yet.</li>
+            {% endfor %}
+
+        </ul>
+        <p>
+            <a href="{% url 'tipo_produto-add' %}">add a tipo_produto</a>
+        </p>
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from estoque.models import TipoProduto
-from .forms import TipoProdutoForm, ProdutoForm, ProdutoFormset
+from .forms import TipoProdutoForm, ProdutoForm, ProdutoFormSet
 
 # Create your views here.
 
@@ -41,13 +41,13 @@ def modo_manual_tipo_produto_add(request):
 # @transaction.atomic()
 # def modo_manual_tipo_produto_add_2(request):
 #     tipo_produto_form = TipoProdutoForm()
-#     produto_formset = ProdutoFormset()
+#     produto_formset = ProdutoFormSet()
 #
 #     if request.method == 'POST':
 #         tipo_produto_form = TipoProdutoForm(request.POST)
 #         if tipo_produto_form.is_valid():
 #             tipo_produto = tipo_produto_form.save(commit=False)
-#             produto_formset = ProdutoFormset(request.POST, request.FILES, instance=tipo_produto)
+#             produto_formset = ProdutoFormSet(request.POST, request.FILES, instance=tipo_produto)
 #             if produto_formset.is_valid():
 #                 tipo_produto.save()
 #                 produto_formset.save()
@@ -61,7 +61,7 @@ def modo_manual_tipo_produto_add(request):
 @transaction.atomic()
 def modo_manual_tipo_produto_add_2(request):
     tipo_produto_form = TipoProdutoForm(request.POST or None, request.FILES or None)
-    produto_formset = ProdutoFormset(request.POST or None, request.FILES or None)
+    produto_formset = ProdutoFormSet(request.POST or None, request.FILES or None)
 
     if request.method == 'POST':
         if tipo_produto_form.is_valid() and produto_formset.is_valid():
@@ -87,7 +87,7 @@ def modo_manual_tipo_produto_add_or_edit(request, id=None):
     tipo_produto_form = TipoProdutoForm(data=request.POST or None,
                                         files=request.FILES or None,
                                         instance=tipo_produto)
-    produto_formset = ProdutoFormset(data=request.POST or None,
+    produto_formset = ProdutoFormSet(data=request.POST or None,
                                      files=request.FILES or None,
                                      instance=tipo_produto)
 
