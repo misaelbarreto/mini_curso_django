@@ -1,0 +1,76 @@
+<!-- mini_curso_django/templates/base.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Formulário De Avaliação Dinâmico Baseado em Json{% endblock %}
+
+{% block content %}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+    </style>
+
+
+    {% if messages %}
+        {# Atenção: A variável messages é controlada pela aplicação "django.contrib.messages", enquanto que as variáveis de #}
+        {# "form.non_field_errors" e "{{ field.errors }}" são controladas e disparadas pela classe Form. #}
+        <ul class="messages">Messages:
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="." novalidate>
+        {% csrf_token %}
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Label</th>
+                <th>Value</th>
+                <th colspan="4">Avaliacao</th>
+            </tr>
+
+            {% for etapa in etapas %}
+                <tr>
+                    <td colspan="7" align="center" bgcolor="#e6e6fa">ETAPA {{ etapa.etapa_atual }}</td>
+                </tr>
+                {% for campo in etapa.formulario_unificado %}
+                    <tr>
+                        <td>{{ campo.name }}</td>
+                        <td>{{ campo.label }}</td>
+                        <td>{{ campo.value }}</td>
+                        <td>
+                            <input type="radio" id="id_etapa_{{ etapa.etapa_atual }}____{{ campo.name }}_status"  name="etapa_{{ etapa.etapa_atual }}____{{ campo.name }}____status" value="" {% if not campo.status %}checked{% endif %}>
+                            <label for="male">Aguardando Avaliação</label><br>
+                        </td>
+                        <td>
+                            <input type="radio" id="id_etapa_{{ etapa.etapa_atual }}____{{ campo.name }}_status" name="etapa_{{ etapa.etapa_atual }}____{{ campo.name }}____status" value="OK" {% if campo.status == 'OK' %}checked{% endif %}>
+                            <label for="male">OK</label><br>
+                        </td>
+                        <td>
+                            <input type="radio" id="id_etapa_{{ etapa.etapa_atual }}____{{ campo.name }}_status" name="etapa_{{ etapa.etapa_atual }}____{{ campo.name }}____status" value="ERROR" {% if campo.status == 'ERROR' %}checked{% endif %}>
+                            <label for="male">Com Problema</label><br>
+                        </td>
+                        <td>
+                            <input type="text"
+                                   id="id_etapa_{{ etapa.etapa_atual }}____{{ campo.name }}_status_msg"
+                                   name="etapa_{{ etapa.etapa_atual }}____{{ campo.name }}____status_msg" placeholder="Em caso de problema, informe o motivo"
+                                   value="{% if campo.status_msg %}{{ campo.status_msg }}{% endif %}"
+                            />
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+
+        <input type="submit" value="Salvar"/>
+    </form>
+{% endblock %}
+

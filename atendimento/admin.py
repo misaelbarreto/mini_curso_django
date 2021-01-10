@@ -9,9 +9,9 @@ from .models import Cliente
 
 # Exemplo 2: Registrar um modelo junto ao Django Admin e fazendo customizações básicas.
 class ClienteAdmin(admin.ModelAdmin):
-    fields = ['nome', 'cpf', 'estado_civil',]
+    fields = ['nome', 'cpf', 'estado_civil', 'idade']
     search_fields = ['nome', 'cpf']
-    list_filter = ['estado_civil', ]
+    list_filter = ['estado_civil', 'idade']
     list_display = ('nome', 'cpf', 'estado_civil', 'data_nascimento', 'email', 'data_hora_cadastro')
     list_display_links = ('nome',)
 

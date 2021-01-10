@@ -18,3 +18,5 @@ class ProdutoAdmin(admin.ModelAdmin):
     list_filter = ['tipo_produto', ]
     list_display = ('nome', 'preco', 'tipo_produto', 'quantidade_em_estoque',  'data_ultima_atualizacao')
 admin.site.register(Produto, ProdutoAdmin)
+
+# admin.site.register(Produto)

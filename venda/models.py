@@ -32,7 +32,7 @@ class VendaItem(models.Model):
     numero_item = models.IntegerField(verbose_name='Nº do Item', editable=False)
     produto = models.ForeignKey(to=Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField(verbose_name='Quantidade')
-    preco = models.DecimalField(verbose_name='Preço', max_digits=10, decimal_places=2, editable=False)
+    preco = models.DecimalField(verbose_name='Preço', max_digits=10, decimal_places=2, editable=True)
     item_cancelado = models.BooleanField(verbose_name='Item cancelado', default=False)
 
     class Meta:

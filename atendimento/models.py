@@ -19,6 +19,7 @@ class Cliente(models.Model):
     data_nascimento = models.DateField('Data de Nascimento', blank=True, null=True)
     email = models.EmailField('E-mail', max_length=100, blank=True, null=True)
     data_hora_cadastro = models.DateTimeField('Data de Cadastro', auto_now_add=True)
+    idade = models.IntegerField('Idade', null=True, blank=True)
 
     class Meta:
         ordering = ['nome']

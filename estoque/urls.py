@@ -12,5 +12,7 @@ urlpatterns = [
     path('tipo_produto/add/', views_cbs.TipoProdutoProdutoCreate.as_view(), name='tipo_produto-add'),
     path('tipo_produto/<int:pk>', views_cbs.TipoProdutoProdutoUpdate.as_view(), name='tipo_produto-update'),
     path('tipo_produto/del/<int:pk>', views_cbs.TipoProdutoDelete.as_view(), name='tipo_produto-delete'),
+
+    path('json_avaliacao_form/', views.json_avaliacao_form, name='json_avaliacao_form'),
 ]
 
